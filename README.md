@@ -5,7 +5,7 @@ for a coffeehouse that will allow employees to save orders and managers to get s
 
 ## Database model
 
-![database model](./img/database_model.png)
+![database model](src/main/resources/database_model.png)
 
 ## Complex database query
  
