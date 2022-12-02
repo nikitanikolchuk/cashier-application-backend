@@ -1,6 +1,7 @@
 package cz.cvut.fit.tjv.cashier_application.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.Collections;
@@ -14,24 +15,23 @@ import java.util.Set;
 @Entity
 public class MenuItem {
     @Id
+    @GeneratedValue
     private int id;
     private String name;
     private int price;
     /**
      * Orders that included this menu item.
      */
-    @OneToMany
-    private final Set<Order> containingOrders = new HashSet<>();
+    @OneToMany(mappedBy = "menuItem")
+    private final Set<MenuItemOrder> containingOrders = new HashSet<>();
 
     /**
      * Create new instance of MenuItem class.
      *
-     * @param id id of the item
      * @param name name of the item
      * @param price price of the item
      */
-    public MenuItem(int id, String name, int price) {
-        this.id = id;
+    public MenuItem(String name, int price) {
         this.name = name;
         this.price = price;
     }
@@ -68,16 +68,16 @@ public class MenuItem {
      *
      * @return unmodifiable set of orders that included this menu item.
      */
-    public Set<Order> getContainingOrders() {
+    public Set<MenuItemOrder> getContainingOrders() {
         return Collections.unmodifiableSet(containingOrders);
     }
 
     /**
-     * Add order that included this item.
+     * Add menu item order that included this item.
      *
-     * @param order order that included this item
+     * @param order menu item order that included this item
      */
-    public void addContainingOrder(Order order) {
+    public void addContainingOrder(MenuItemOrder order) {
         containingOrders.add(Objects.requireNonNull(order));
     }
 }

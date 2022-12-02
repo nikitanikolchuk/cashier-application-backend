@@ -1,14 +1,8 @@
 package cz.cvut.fit.tjv.cashier_application.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Domain type Order. Uses int as a primary key.
@@ -16,6 +10,7 @@ import java.util.Set;
 @Entity
 public class Order {
     @Id
+    @GeneratedValue
     private int id;
     /**
      * Total price of all included menu items.
@@ -31,29 +26,28 @@ public class Order {
     @ManyToOne
     private Employee employee;
     /**
-     * Menu items included in this order.
+     * Menu item orders included in this order.
      */
-    @ManyToMany
-    private final Set<MenuItem> includedMenuItems;
+    @OneToMany(mappedBy = "order")
+    private final Set<MenuItemOrder> includedMenuItemOrders;
 
     /**
      * Create new instance of class Order.
      *
-     * @param id id of the order
-     * @param dateTime date and time of order creation
      * @param employee employee that created this order
-     * @param includedMenuItems menu items to include
+     * @param menuItemOrders menu items to include and their counts
      */
-    public Order(int id, LocalDateTime dateTime, Employee employee, Set<MenuItem> includedMenuItems) {
-        this.id = id;
-        this.price = includedMenuItems.stream().map(MenuItem::getPrice).reduce(0, Integer::sum);
-        this.dateTime = dateTime;
+    public Order(Employee employee, Set<MenuItemOrder> menuItemOrders) {
+        this.price = menuItemOrders.stream()
+                .map(itemOrder -> itemOrder.getItemCount() * itemOrder.getItemPrice())
+                .reduce(0, Integer::sum);
+        this.dateTime = LocalDateTime.now();
         this.employee = employee;
-        this.includedMenuItems = includedMenuItems;
+        this.includedMenuItemOrders = menuItemOrders;
     }
 
     public Order() {
-        includedMenuItems = new HashSet<>();
+        includedMenuItemOrders = new HashSet<>();
     }
 
     public int getId() {
@@ -113,7 +107,7 @@ public class Order {
      *
      * @return unmodifiable set of included menu items
      */
-    public Set<MenuItem> getIncludedMenuItems() {
-        return Collections.unmodifiableSet(includedMenuItems);
+    public Set<MenuItemOrder> getIncludedMenuItemOrders() {
+        return Collections.unmodifiableSet(includedMenuItemOrders);
     }
 }

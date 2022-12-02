@@ -1,6 +1,7 @@
 package cz.cvut.fit.tjv.cashier_application.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.*;
@@ -11,6 +12,7 @@ import java.util.*;
 @Entity
 public class Employee {
     @Id
+    @GeneratedValue
     private int id;
     private String name;
     private String surname;
@@ -25,14 +27,12 @@ public class Employee {
     /**
      * Create new instance of Employee class.
      *
-     * @param id id of the employee
      * @param name name of the employee
      * @param surname surname of the employee
      * @param position position of the employee, can be either "barista" or "manager"
      * @param salary salary of the employee
      */
-    public Employee(int id, String name, String surname, String position, int salary) {
-        this.id = id;
+    public Employee(String name, String surname, String position, int salary) {
         this.name = name;
         this.surname = surname;
         this.position = position;
