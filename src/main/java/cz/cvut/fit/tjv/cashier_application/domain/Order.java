@@ -26,10 +26,10 @@ public class Order {
      */
     private LocalDateTime dateTime;
     /**
-     * Cashier that created this order.
+     * Employee that created this order.
      */
     @ManyToOne
-    private Employee cashier;
+    private Employee employee;
     /**
      * Menu items included in this order.
      */
@@ -41,14 +41,14 @@ public class Order {
      *
      * @param id id of the order
      * @param dateTime date and time of order creation
-     * @param cashier cashier that created this order
+     * @param employee employee that created this order
      * @param includedMenuItems menu items to include
      */
-    public Order(int id, LocalDateTime dateTime, Employee cashier, Set<MenuItem> includedMenuItems) {
+    public Order(int id, LocalDateTime dateTime, Employee employee, Set<MenuItem> includedMenuItems) {
         this.id = id;
         this.price = includedMenuItems.stream().map(MenuItem::getPrice).reduce(0, Integer::sum);
         this.dateTime = dateTime;
-        this.cashier = cashier;
+        this.employee = employee;
         this.includedMenuItems = includedMenuItems;
     }
 
@@ -91,21 +91,21 @@ public class Order {
     }
 
     /**
-     * Return cashier that created the order.
+     * Return employee that created the order.
      *
-     * @return cashier that created the order
+     * @return employee that created the order
      */
-    public Employee getCashier() {
-        return cashier;
+    public Employee getEmployee() {
+        return employee;
     }
 
     /**
-     * Set cashier that created the order.
+     * Set employee that created the order.
      *
-     * @param cashier cashier that created the order
+     * @param employee employee that created the order
      */
-    public void setCashier(Employee cashier) {
-        this.cashier = Objects.requireNonNull(cashier);
+    public void setEmployee(Employee employee) {
+        this.employee = Objects.requireNonNull(employee);
     }
 
     /**
