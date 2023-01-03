@@ -6,24 +6,21 @@ import javax.persistence.*;
  * Class implementing many-to-many relation for Order and MenuItem with additional attributes.
  */
 @Entity
-public class MenuItemOrder {
+public class OrderDetail {
     @EmbeddedId
-    MenuItemOrderKey key;
-
+    OrderDetailKey key;
     @ManyToOne
     @MapsId("orderId")
     @JoinColumn(name = "id_order")
     Order order;
-
     @ManyToOne
     @MapsId("menuItemId")
     @JoinColumn(name = "id_menu_item")
     MenuItem menuItem;
-
     /**
      * Number of ordered items with this id.
      */
-    int itemCount;
+    int itemQuantity;
     /**
      * Price of the item at the moment of order creation.
      */
@@ -34,24 +31,24 @@ public class MenuItemOrder {
      *
      * @param order order that includes this menu item order
      * @param menuItem menu item in this menu item order
-     * @param itemCount number of these items
+     * @param itemQuantity number of these items
      */
-    public MenuItemOrder(Order order, MenuItem menuItem, int itemCount) {
-        this.key = new MenuItemOrderKey(order.getId(), menuItem.getId());
+    public OrderDetail(Order order, MenuItem menuItem, int itemQuantity) {
+        this.key = new OrderDetailKey(order.getId(), menuItem.getId());
         this.order = order;
         this.menuItem = menuItem;
-        this.itemCount = itemCount;
+        this.itemQuantity = itemQuantity;
         this.itemPrice = menuItem.getPrice();
     }
 
-    public MenuItemOrder(){
+    public OrderDetail(){
     }
 
-    public MenuItemOrderKey getKey() {
+    public OrderDetailKey getKey() {
         return key;
     }
 
-    public void setKey(MenuItemOrderKey key) {
+    public void setKey(OrderDetailKey key) {
         this.key = key;
     }
 
@@ -71,12 +68,12 @@ public class MenuItemOrder {
         this.menuItem = menuItem;
     }
 
-    public int getItemCount() {
-        return itemCount;
+    public int getItemQuantity() {
+        return itemQuantity;
     }
 
-    public void setItemCount(int itemCount) {
-        this.itemCount = itemCount;
+    public void setItemQuantity(int itemQuantity) {
+        this.itemQuantity = itemQuantity;
     }
 
     public int getItemPrice() {

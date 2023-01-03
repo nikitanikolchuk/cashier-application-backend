@@ -13,11 +13,7 @@ public class Order {
     @GeneratedValue
     private int id;
     /**
-     * Total price of all included menu items.
-     */
-    private int price;
-    /**
-     * Date and time of order creation.
+     * Local date and time of order creation.
      */
     private LocalDateTime dateTime;
     /**
@@ -26,28 +22,25 @@ public class Order {
     @ManyToOne
     private Employee employee;
     /**
-     * Menu item orders included in this order.
+     * Menu items with their prices and quantities included in this order.
      */
     @OneToMany(mappedBy = "order")
-    private final Set<MenuItemOrder> includedMenuItemOrders;
+    private final Set<OrderDetail> orderDetails;
 
     /**
      * Create new instance of class Order.
      *
      * @param employee employee that created this order
-     * @param menuItemOrders menu items to include and their counts
+     * @param orderDetails menu items to include, their quantities and prices
      */
-    public Order(Employee employee, Set<MenuItemOrder> menuItemOrders) {
-        this.price = menuItemOrders.stream()
-                .map(itemOrder -> itemOrder.getItemCount() * itemOrder.getItemPrice())
-                .reduce(0, Integer::sum);
+    public Order(Employee employee, Set<OrderDetail> orderDetails) {
         this.dateTime = LocalDateTime.now();
         this.employee = employee;
-        this.includedMenuItemOrders = menuItemOrders;
+        this.orderDetails = orderDetails;
     }
 
     public Order() {
-        includedMenuItemOrders = new HashSet<>();
+        orderDetails = new HashSet<>();
     }
 
     public int getId() {
@@ -56,14 +49,6 @@ public class Order {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
     }
 
     /**
@@ -103,11 +88,12 @@ public class Order {
     }
 
     /**
-     * Return included menu items.
+     * Return included menu items with their quantities and prices.
      *
-     * @return unmodifiable set of included menu items
+     * @return unmodifiable set of order details
      */
-    public Set<MenuItemOrder> getIncludedMenuItemOrders() {
-        return Collections.unmodifiableSet(includedMenuItemOrders);
+    public Set<OrderDetail> getOrderDetails() {
+        return Collections.unmodifiableSet(orderDetails);
     }
+
 }

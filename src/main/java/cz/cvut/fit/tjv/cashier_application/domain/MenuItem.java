@@ -1,13 +1,7 @@
 package cz.cvut.fit.tjv.cashier_application.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import javax.persistence.*;
+import java.util.*;
 
 /**
  * Domain type MenuItem. Uses int as a primary key.
@@ -20,23 +14,31 @@ public class MenuItem {
     private String name;
     private int price;
     /**
-     * Orders that included this menu item.
+     * Order details that included this menu item.
      */
     @OneToMany(mappedBy = "menuItem")
-    private final Set<MenuItemOrder> containingOrders = new HashSet<>();
+    private final Set<OrderDetail> containingOrderDetails = new HashSet<>();
+    /**
+     * Categories to which this menu item belongs to.
+     */
+    @ManyToMany
+    private Set<Category> categories;
 
     /**
      * Create new instance of MenuItem class.
      *
      * @param name name of the item
      * @param price price of the item
+     * @param categories categories of the item
      */
-    public MenuItem(String name, int price) {
+    public MenuItem(String name, int price, Set<Category> categories) {
         this.name = name;
         this.price = price;
+        this.categories = categories;
     }
 
     public MenuItem() {
+        categories = new HashSet<>();
     }
 
     public int getId() {
@@ -64,20 +66,38 @@ public class MenuItem {
     }
 
     /**
-     * Return orders that included this menu item.
+     * Return order details that included this menu item.
      *
-     * @return unmodifiable set of orders that included this menu item.
+     * @return unmodifiable set of order details that included this menu item.
      */
-    public Set<MenuItemOrder> getContainingOrders() {
-        return Collections.unmodifiableSet(containingOrders);
+    public Set<OrderDetail> getContainingOrderDetails() {
+        return Collections.unmodifiableSet(containingOrderDetails);
     }
 
     /**
-     * Add menu item order that included this item.
+     * Add order detail that included this item.
      *
-     * @param order menu item order that included this item
+     * @param orderDetail order detail that included this item
      */
-    public void addContainingOrder(MenuItemOrder order) {
-        containingOrders.add(Objects.requireNonNull(order));
+    public void addContainingOrderDetail(OrderDetail orderDetail) {
+        containingOrderDetails.add(Objects.requireNonNull(orderDetail));
+    }
+
+    /**
+     * Get categories of this menu item.
+     *
+     * @return unmodifiable set of categories
+     */
+    public Set<Category> getCategories() {
+        return Collections.unmodifiableSet(categories);
+    }
+
+    /**
+     * Set categories of this menu item.
+     *
+     * @param categories categories to set
+     */
+    public void setCategories(Set<Category> categories) {
+        this.categories = Objects.requireNonNull(categories);
     }
 }
