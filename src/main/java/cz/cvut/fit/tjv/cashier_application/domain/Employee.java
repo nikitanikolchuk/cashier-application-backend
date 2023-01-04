@@ -1,19 +1,16 @@
 package cz.cvut.fit.tjv.cashier_application.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import org.springframework.data.jpa.domain.AbstractPersistable;
+
+import javax.persistence.*;
 import java.util.*;
 
 /**
  * Domain type Employee. Uses int as a primary key.
  */
 @Entity
-public class Employee {
-    @Id
-    @GeneratedValue
-    private int id;
+@AttributeOverride(name = "id", column = @Column(name = "id_employee"))
+public class Employee extends AbstractPersistable<Integer> {
     private String name;
     private String surname;
     private String position;
@@ -40,14 +37,6 @@ public class Employee {
     }
 
     public Employee() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {

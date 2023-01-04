@@ -1,5 +1,7 @@
 package cz.cvut.fit.tjv.cashier_application.domain;
 
+import org.springframework.data.jpa.domain.AbstractPersistable;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -8,10 +10,8 @@ import java.util.*;
  * Domain type Order. Uses int as a primary key.
  */
 @Entity
-public class Order {
-    @Id
-    @GeneratedValue
-    private int id;
+@AttributeOverride(name = "id", column = @Column(name = "id_order"))
+public class Order extends AbstractPersistable<Integer> {
     /**
      * Local date and time of order creation.
      */
@@ -41,14 +41,6 @@ public class Order {
 
     public Order() {
         orderDetails = new HashSet<>();
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     /**

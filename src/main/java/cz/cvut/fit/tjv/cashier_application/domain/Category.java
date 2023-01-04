@@ -1,16 +1,13 @@
 package cz.cvut.fit.tjv.cashier_application.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import org.springframework.data.jpa.domain.AbstractPersistable;
+
+import javax.persistence.*;
 import java.util.*;
 
 @Entity
-public class Category {
-    @Id
-    @GeneratedValue
-    private int id;
+@AttributeOverride(name = "id", column = @Column(name = "id_category"))
+public class Category extends AbstractPersistable<Integer> {
     private String name;
 
     /**
@@ -29,14 +26,6 @@ public class Category {
     }
 
     public Category() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {

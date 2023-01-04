@@ -1,5 +1,7 @@
 package cz.cvut.fit.tjv.cashier_application.domain;
 
+import org.springframework.data.jpa.domain.AbstractPersistable;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -7,10 +9,8 @@ import java.util.*;
  * Domain type MenuItem. Uses int as a primary key.
  */
 @Entity
-public class MenuItem {
-    @Id
-    @GeneratedValue
-    private int id;
+@AttributeOverride(name = "id", column = @Column(name = "id_menu_item"))
+public class MenuItem extends AbstractPersistable<Integer> {
     private String name;
     private int price;
     /**
@@ -39,14 +39,6 @@ public class MenuItem {
 
     public MenuItem() {
         categories = new HashSet<>();
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {

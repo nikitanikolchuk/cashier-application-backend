@@ -1,6 +1,7 @@
 package cz.cvut.fit.tjv.cashier_application.domain;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 /**
  * Class implementing many-to-many relation for Order and MenuItem with additional attributes.
@@ -34,7 +35,9 @@ public class OrderDetail {
      * @param itemQuantity number of these items
      */
     public OrderDetail(Order order, MenuItem menuItem, int itemQuantity) {
-        this.key = new OrderDetailKey(order.getId(), menuItem.getId());
+        int orderId = Objects.requireNonNull(order.getId());
+        int menuItemId = Objects.requireNonNull(menuItem.getId());
+        this.key = new OrderDetailKey(orderId, menuItemId);
         this.order = order;
         this.menuItem = menuItem;
         this.itemQuantity = itemQuantity;
