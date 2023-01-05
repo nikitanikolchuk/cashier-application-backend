@@ -1,5 +1,8 @@
 package cz.cvut.fit.tjv.cashier_application.domain;
 
+import org.springframework.data.domain.Persistable;
+import org.springframework.lang.Nullable;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -7,9 +10,9 @@ import java.util.Objects;
  * Class implementing many-to-many relation for Order and MenuItem with additional attributes.
  */
 @Entity
-public class OrderDetail {
+public class OrderDetail implements Persistable<OrderDetailKey> {
     @EmbeddedId
-    OrderDetailKey key;
+    OrderDetailKey id;
     @ManyToOne
     @MapsId("orderId")
     @JoinColumn(name = "id_order")
@@ -37,7 +40,7 @@ public class OrderDetail {
     public OrderDetail(Order order, MenuItem menuItem, int itemQuantity) {
         int orderId = Objects.requireNonNull(order.getId());
         int menuItemId = Objects.requireNonNull(menuItem.getId());
-        this.key = new OrderDetailKey(orderId, menuItemId);
+        this.id = new OrderDetailKey(orderId, menuItemId);
         this.order = order;
         this.menuItem = menuItem;
         this.itemQuantity = itemQuantity;
@@ -47,12 +50,19 @@ public class OrderDetail {
     public OrderDetail(){
     }
 
-    public OrderDetailKey getKey() {
-        return key;
+    @Nullable
+    @Override
+    public OrderDetailKey getId() {
+        return id;
     }
 
-    public void setKey(OrderDetailKey key) {
-        this.key = key;
+    public void setId(OrderDetailKey id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean isNew() {
+        return null == getId();
     }
 
     public Order getOrder() {

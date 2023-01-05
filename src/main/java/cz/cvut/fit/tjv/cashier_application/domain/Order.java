@@ -10,6 +10,7 @@ import java.util.*;
  * Domain type Order. Uses int as a primary key.
  */
 @Entity
+@Table(name = "\"order\"")
 @AttributeOverride(name = "id", column = @Column(name = "id_order"))
 public class Order extends AbstractPersistable<Integer> {
     /**
