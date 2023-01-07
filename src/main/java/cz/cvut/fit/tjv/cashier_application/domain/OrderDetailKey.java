@@ -3,6 +3,7 @@ package cz.cvut.fit.tjv.cashier_application.domain;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Key class for OrderDetail.
@@ -36,5 +37,18 @@ public class OrderDetailKey implements Serializable {
 
     public void setMenuItemId(int menuItemId) {
         this.menuItemId = menuItemId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderDetailKey that = (OrderDetailKey) o;
+        return getOrderId() == that.getOrderId() && getMenuItemId() == that.getMenuItemId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(orderId, menuItemId);
     }
 }
