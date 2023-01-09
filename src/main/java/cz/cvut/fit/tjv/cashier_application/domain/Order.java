@@ -25,7 +25,7 @@ public class Order extends AbstractPersistable<Integer> {
     /**
      * Menu items with their prices and quantities included in this order.
      */
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", orphanRemoval = true)
     private final Set<OrderDetail> orderDetails = new HashSet<>();
 
     /**
@@ -94,5 +94,4 @@ public class Order extends AbstractPersistable<Integer> {
     public void addOrderDetail(OrderDetail orderDetail) {
         orderDetails.add(Objects.requireNonNull(orderDetail));
     }
-
 }

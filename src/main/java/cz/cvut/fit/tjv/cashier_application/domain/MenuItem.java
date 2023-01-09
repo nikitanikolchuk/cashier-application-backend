@@ -89,4 +89,13 @@ public class MenuItem extends AbstractPersistable<Integer> {
     public void addCategory(Category category) {
         this.categories.add(Objects.requireNonNull(category));
     }
+
+    /**
+     * Delete this item from all its categories before deleting itself.
+     */
+    @PreRemove
+    private void deleteFromCategories() {
+        for (Category category : categories)
+            category.removeMenuItem(this);
+    }
 }
