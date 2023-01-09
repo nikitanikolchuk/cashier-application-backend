@@ -58,4 +58,13 @@ public class Category extends AbstractPersistable<Integer> {
     public void addMenuItem(MenuItem menuItem) {
         menuItems.add(Objects.requireNonNull(menuItem));
     }
+
+    /**
+     * Delete a menu item from this category
+     *
+     * @param menuItem menu item to delete
+     */
+    public void removeMenuItem(MenuItem menuItem) {
+        menuItems.remove(menuItem);
+    }
 }
