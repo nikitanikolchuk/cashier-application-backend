@@ -26,22 +26,19 @@ public class Order extends AbstractPersistable<Integer> {
      * Menu items with their prices and quantities included in this order.
      */
     @OneToMany(mappedBy = "order")
-    private final Set<OrderDetail> orderDetails;
+    private final Set<OrderDetail> orderDetails = new HashSet<>();
 
     /**
      * Create new instance of class Order.
      *
      * @param employee employee that created this order
-     * @param orderDetails menu items to include, their quantities and prices
      */
-    public Order(Employee employee, Set<OrderDetail> orderDetails) {
+    public Order(Employee employee) {
         this.dateTime = LocalDateTime.now();
         this.employee = employee;
-        this.orderDetails = orderDetails;
     }
 
     public Order() {
-        orderDetails = new HashSet<>();
     }
 
     /**
