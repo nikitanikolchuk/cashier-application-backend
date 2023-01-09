@@ -89,4 +89,13 @@ public class Order extends AbstractPersistable<Integer> {
         return Collections.unmodifiableSet(orderDetails);
     }
 
+    /**
+     * Add new order detail to the order.
+     *
+     * @param orderDetail order detail to add
+     */
+    public void addOrderDetail(OrderDetail orderDetail) {
+        orderDetails.add(Objects.requireNonNull(orderDetail));
+    }
+
 }

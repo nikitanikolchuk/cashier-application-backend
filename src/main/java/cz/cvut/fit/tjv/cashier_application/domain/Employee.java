@@ -18,7 +18,7 @@ public class Employee extends AbstractPersistable<Integer> {
     /**
      * Orders served by this employee.
      */
-    @OneToMany
+    @OneToMany(mappedBy = "employee")
     private final Set<Order> servedOrders = new HashSet<>();
 
     /**
