@@ -22,23 +22,20 @@ public class MenuItem extends AbstractPersistable<Integer> {
      * Categories to which this menu item belongs to.
      */
     @ManyToMany
-    private Set<Category> categories;
+    private Set<Category> categories = new HashSet<>();
 
     /**
      * Create new instance of MenuItem class.
      *
      * @param name name of the item
      * @param price price of the item
-     * @param categories categories of the item
      */
-    public MenuItem(String name, int price, Set<Category> categories) {
+    public MenuItem(String name, int price) {
         this.name = name;
         this.price = price;
-        this.categories = categories;
     }
 
     public MenuItem() {
-        categories = new HashSet<>();
     }
 
     public String getName() {
