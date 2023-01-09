@@ -10,8 +10,8 @@ import java.util.Collection;
 
 @Repository
 public interface OrderJpaRepository extends JpaRepository<Order, Integer> {
-    Collection<Order> findAllByDateTimeAfter(LocalDateTime dateTime);
+    Collection<Order> findAllByDateTimeBetween(LocalDateTime from, LocalDateTime to);
 
-    @Query(value = "SELECT o FROM Order o WHERE o.employee.id = ?1 AND year(o.dateTime) = ?2 AND month(o.dateTime) = ?3")
-    Collection<Order> findAllByEmployeeIdAndMonth(int employeeId, int year, int month);
+    @Query(value = "SELECT o FROM Order o WHERE o.employee.id = :employeeId AND o.dateTime BETWEEN :from AND :to")
+    Collection<Order> findAllByEmployeeIdAndDateTimeBetween(int employeeId, LocalDateTime from, LocalDateTime to);
 }
