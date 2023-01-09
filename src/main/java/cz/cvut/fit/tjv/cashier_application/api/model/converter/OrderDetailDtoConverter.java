@@ -24,7 +24,7 @@ public class OrderDetailDtoConverter extends AbstractDtoConverter<OrderDetail, O
     }
 
     @Override
-    public OrderDetailDto toDto(OrderDetail entity) {
+    public OrderDetailDto toDto(OrderDetail entity) throws EntityNotFoundException {
         OrderDetailDto dto = new OrderDetailDto();
         dto.setOrderId(Objects.requireNonNull(entity.getId()).getOrderId());
         dto.setItemId(entity.getId().getMenuItemId());
@@ -37,7 +37,7 @@ public class OrderDetailDtoConverter extends AbstractDtoConverter<OrderDetail, O
     }
 
     @Override
-    public OrderDetail toEntity(OrderDetailDto dto) {
+    public OrderDetail toEntity(OrderDetailDto dto) throws EntityNotFoundException {
         Order order = orderService.readById(dto.getOrderId())
                 .orElseThrow(() -> new EntityNotFoundException("Not found order with id = " + dto.getOrderId()));
         MenuItem menuItem = menuItemService.readById(dto.getItemId())

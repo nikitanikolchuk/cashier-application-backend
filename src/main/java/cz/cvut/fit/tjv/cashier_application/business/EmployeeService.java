@@ -33,7 +33,7 @@ public class EmployeeService extends AbstractCrudService<Employee, Integer> {
      * @param employeeId id of the employee
      * @return collection of orders
      */
-    public Collection<Order> findOrders(int employeeId) {
+    public Collection<Order> findOrders(int employeeId) throws EntityNotFoundException {
         Employee e = repository.findById(employeeId)
                 .orElseThrow(() -> new EntityNotFoundException("Not found employee with id = " + employeeId));
         return e.getServedOrders();

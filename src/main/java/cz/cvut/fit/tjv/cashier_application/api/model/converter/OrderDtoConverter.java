@@ -29,21 +29,21 @@ public class OrderDtoConverter extends AbstractDtoConverter<Order, OrderDto> {
     }
 
     @Override
-    public OrderDto toDto(Order entity) {
+    public OrderDto toDto(Order entity) throws EntityNotFoundException {
         OrderDto dto = new OrderDto();
         dto.setId(Objects.requireNonNull(entity.getId()));
         dto.setDateTime(entity.getDateTime().format(DateTimeFormatter.ISO_DATE_TIME));
         dto.setEmployeeId(Objects.requireNonNull(entity.getEmployee().getId()));
         dto.setPrice(orderService.calculatePrice(entity.getId()));
         Collection<OrderDetailDto> details = entity.getOrderDetails().stream()
-                .map(detail -> orderDetailDtoConverter.toDto(detail))
+                .map(orderDetailDtoConverter::toDto)
                 .toList();
         dto.setDetails(details);
         return dto;
     }
 
     @Override
-    public Order toEntity(OrderDto dto) {
+    public Order toEntity(OrderDto dto) throws EntityNotFoundException {
         Employee employee = employeeService.readById(dto.getEmployeeId())
                 .orElseThrow(() -> new EntityNotFoundException("Not found employee with id = " + dto.getEmployeeId()));
         return new Order(employee);
