@@ -21,8 +21,8 @@ public class MenuItem extends AbstractPersistable<Integer> {
     /**
      * Categories to which this menu item belongs to.
      */
-    @ManyToMany
-    private Set<Category> categories = new HashSet<>();
+    @ManyToMany(mappedBy = "menuItems")
+    private final Set<Category> categories = new HashSet<>();
 
     /**
      * Create new instance of MenuItem class.
@@ -82,11 +82,11 @@ public class MenuItem extends AbstractPersistable<Integer> {
     }
 
     /**
-     * Set categories of this menu item.
+     * Add category to this menu item.
      *
-     * @param categories categories to set
+     * @param category category to add
      */
-    public void setCategories(Set<Category> categories) {
-        this.categories = Objects.requireNonNull(categories);
+    public void addCategory(Category category) {
+        this.categories.add(Objects.requireNonNull(category));
     }
 }

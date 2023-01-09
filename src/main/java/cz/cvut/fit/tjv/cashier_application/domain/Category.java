@@ -13,8 +13,13 @@ public class Category extends AbstractPersistable<Integer> {
     /**
      * Menu items of this category.
      */
-    @ManyToMany(mappedBy = "categories")
-    private final Set<MenuItem> menuItems = new HashSet<>();
+    @ManyToMany
+    @JoinTable(
+            name = "category_menu_item",
+            joinColumns = @JoinColumn(name = "id_category"),
+            inverseJoinColumns = @JoinColumn(name = "id_menu_item")
+    )
+    private Set<MenuItem> menuItems = new HashSet<>();
 
     /**
      * Crete an instance of class Category with given name.
