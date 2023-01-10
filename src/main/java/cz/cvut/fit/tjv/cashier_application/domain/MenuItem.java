@@ -13,6 +13,7 @@ import java.util.*;
 public class MenuItem extends AbstractPersistable<Integer> {
     private String name;
     private int price;
+    private boolean archived = false;
     /**
      * Order details that included this menu item.
      */
@@ -54,6 +55,14 @@ public class MenuItem extends AbstractPersistable<Integer> {
         this.price = price;
     }
 
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
+    }
+
     /**
      * Return order details that included this menu item.
      *
@@ -91,10 +100,9 @@ public class MenuItem extends AbstractPersistable<Integer> {
     }
 
     /**
-     * Delete this item from all its categories before deleting itself.
+     * Delete this item from all its categories.
      */
-    @PreRemove
-    private void deleteFromCategories() {
+    public void deleteFromCategories() {
         for (Category category : categories)
             category.removeMenuItem(this);
     }

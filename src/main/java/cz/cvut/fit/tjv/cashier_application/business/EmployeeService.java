@@ -28,6 +28,24 @@ public class EmployeeService extends AbstractCrudService<Employee, Integer> {
     }
 
     /**
+     * Get all employees that are not archived.
+     *
+     * @return iterable of employee type
+     */
+    public Iterable<Employee> readAllActive() {
+        return ((EmployeeJpaRepository) repository).findAllByArchivedIsFalse();
+    }
+
+    /**
+     * Get all employees that are archived.
+     *
+     * @return iterable of employee type
+     */
+    public Iterable<Employee> readAllArchived() {
+        return ((EmployeeJpaRepository) repository).findAllByArchivedIsTrue();
+    }
+
+    /**
      * Calculate salary bonus of an employee for a certain time period.
      * Bonus equals to EMPLOYEE_BONUS% of sum of order prices served by this employee.
      *

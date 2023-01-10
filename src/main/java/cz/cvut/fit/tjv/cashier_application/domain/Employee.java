@@ -15,6 +15,7 @@ public class Employee extends AbstractPersistable<Integer> {
     private String surname;
     private String position;
     private int salary;
+    private boolean archived = false;
     /**
      * Orders served by this employee.
      */
@@ -69,6 +70,14 @@ public class Employee extends AbstractPersistable<Integer> {
 
     public void setSalary(int salary) {
         this.salary = salary;
+    }
+
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
     }
 
     /**
