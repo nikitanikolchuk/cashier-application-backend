@@ -9,6 +9,7 @@ import java.util.*;
  * Domain type MenuItem. Uses int as a primary key.
  */
 @Entity
+@Table(name = "menu_item")
 @AttributeOverride(name = "id", column = @Column(name = "id_menu_item"))
 public class MenuItem extends AbstractPersistable<Integer> {
     private String name;

@@ -10,6 +10,7 @@ import java.util.Objects;
  * Class implementing many-to-many relation for Order and MenuItem with additional attributes.
  */
 @Entity
+@Table(name = "order_detail")
 public class OrderDetail implements Persistable<OrderDetailKey> {
     @EmbeddedId
     OrderDetailKey id;
@@ -24,10 +25,12 @@ public class OrderDetail implements Persistable<OrderDetailKey> {
     /**
      * Number of ordered items with this id.
      */
+    @Column(name = "quantity")
     int itemQuantity;
     /**
      * Price of the item at the moment of order creation.
      */
+    @Column(name = "price")
     int itemPrice;
 
     /**
