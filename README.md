@@ -1,5 +1,7 @@
 # Coffeehouse cashier application
 
+Repository with client application: https://gitlab.fit.cvut.cz/nikolnik/bi-tjv-semestral-client
+
 I've taken inspiration from my DBS semestral work about coffeehouses. This will be a simple cashier application  
 for a coffeehouse that will allow employees to save orders and managers to get statistics about their café.
 
@@ -20,8 +22,14 @@ for the past month and calculate his/her bonus.
 - Change menu
 - Change current user
 
-### Only for managers:
+### Only for managers
 
 - Update employees
 - Count total profit
 - Count money for paychecks
+
+### Application startup
+
+To start the app run command:
+
+`gradle bootRun`
