@@ -32,4 +32,4 @@ for the past month and calculate his/her bonus.
 
 To start the app run command:
 
-`gradle bootRun`
+`docker compose up`
