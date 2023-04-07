@@ -13,15 +13,15 @@ import java.util.Objects;
 public class MenuItemDtoConverter extends AbstractDtoConverter<MenuItem, MenuItemDto> {
     @Override
     public MenuItemDto toDto(MenuItem entity) {
-        MenuItemDto dto = new MenuItemDto();
-        dto.setId(Objects.requireNonNull(entity.getId()));
-        dto.setName(entity.getName());
-        dto.setPrice(entity.getPrice());
-        return dto;
+        return new MenuItemDto(
+                Objects.requireNonNull(entity.getId()),
+                entity.getName(),
+                entity.getPrice()
+        );
     }
 
     @Override
     public MenuItem toEntity(MenuItemDto dto) {
-        return new MenuItem(dto.getName(), dto.getPrice());
+        return new MenuItem(dto.name(), dto.price());
     }
 }

@@ -43,10 +43,11 @@ public class CategoryApiTest {
         when(item1.getName()).thenReturn("test1");
         when(item1.getPrice()).thenReturn(100);
 
-        MenuItemDto itemDto1 = new MenuItemDto();
-        itemDto1.setId(item1.getId());
-        itemDto1.setName(item1.getName());
-        itemDto1.setPrice(item1.getPrice());
+        MenuItemDto itemDto1 = new MenuItemDto(
+                Objects.requireNonNull(item1.getId()),
+                item1.getName(),
+                item1.getPrice()
+        );
 
         when(menuItemDtoConverter.toDto(item1)).thenReturn(itemDto1);
 
@@ -55,10 +56,11 @@ public class CategoryApiTest {
         when(item2.getName()).thenReturn("test2");
         when(item2.getPrice()).thenReturn(200);
 
-        MenuItemDto itemDto2 = new MenuItemDto();
-        itemDto2.setId(item2.getId());
-        itemDto2.setName(item2.getName());
-        itemDto2.setPrice(item2.getPrice());
+        MenuItemDto itemDto2 = new MenuItemDto(
+                Objects.requireNonNull(item2.getId()),
+                item2.getName(),
+                item2.getPrice()
+        );
 
         when(menuItemDtoConverter.toDto(item2)).thenReturn(itemDto2);
 

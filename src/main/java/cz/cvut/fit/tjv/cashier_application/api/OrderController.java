@@ -44,12 +44,12 @@ public class OrderController extends AbstractCrudController<Order, OrderDto, Int
         Order order = service.create(dtoConverter.toEntity(dto));
         if (order.getEmployee().isArchived())
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-        for (OrderDetailDto detailDto : dto.getDetails()) {
-            MenuItem menuItem = menuItemService.readById(detailDto.getItemId())
+        for (OrderDetailDto detailDto : dto.details()) {
+            MenuItem menuItem = menuItemService.readById(detailDto.itemId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY));
             if (menuItem.isArchived())
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-            OrderDetail detail = new OrderDetail(order, menuItem, detailDto.getQuantity());
+            OrderDetail detail = new OrderDetail(order, menuItem, detailDto.quantity());
             order.addOrderDetail(orderDetailService.create(detail));
         }
         return dtoConverter.toDto(order);

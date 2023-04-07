@@ -30,22 +30,23 @@ public class OrderDtoConverter extends AbstractDtoConverter<Order, OrderDto> {
 
     @Override
     public OrderDto toDto(Order entity) throws EntityNotFoundException {
-        OrderDto dto = new OrderDto();
-        dto.setId(Objects.requireNonNull(entity.getId()));
-        dto.setDateTime(entity.getDateTime().format(DateTimeFormatter.ISO_DATE_TIME));
-        dto.setEmployeeId(Objects.requireNonNull(entity.getEmployee().getId()));
-        dto.setPrice(orderService.calculatePrice(entity.getId()));
         Collection<OrderDetailDto> details = entity.getOrderDetails().stream()
                 .map(orderDetailDtoConverter::toDto)
                 .toList();
-        dto.setDetails(details);
-        return dto;
+
+        return new OrderDto(
+                Objects.requireNonNull(entity.getId()),
+                entity.getDateTime().format(DateTimeFormatter.ISO_DATE_TIME),
+                Objects.requireNonNull(entity.getEmployee().getId()),
+                orderService.calculatePrice(entity.getId()),
+                details
+        );
     }
 
     @Override
     public Order toEntity(OrderDto dto) throws EntityNotFoundException {
-        Employee employee = employeeService.readById(dto.getEmployeeId())
-                .orElseThrow(() -> new EntityNotFoundException("Not found employee with id = " + dto.getEmployeeId()));
+        Employee employee = employeeService.readById(dto.employeeId())
+                .orElseThrow(() -> new EntityNotFoundException("Not found employee with id = " + dto.employeeId()));
         return new Order(employee);
     }
 }

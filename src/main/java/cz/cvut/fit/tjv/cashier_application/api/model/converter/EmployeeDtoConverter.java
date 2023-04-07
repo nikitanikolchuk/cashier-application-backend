@@ -13,17 +13,17 @@ import java.util.Objects;
 public class EmployeeDtoConverter extends AbstractDtoConverter<Employee, EmployeeDto> {
     @Override
     public EmployeeDto toDto(Employee entity) {
-        EmployeeDto dto = new EmployeeDto();
-        dto.setId(Objects.requireNonNull(entity.getId()));
-        dto.setName(entity.getName());
-        dto.setSurname(entity.getSurname());
-        dto.setPosition(entity.getPosition());
-        dto.setSalary(entity.getSalary());
-        return dto;
+        return new EmployeeDto(
+                Objects.requireNonNull(entity.getId()),
+                entity.getName(),
+                entity.getSurname(),
+                entity.getPosition(),
+                entity.getSalary()
+        );
     }
 
     @Override
     public Employee toEntity(EmployeeDto dto) {
-        return new Employee(dto.getName(), dto.getSurname(), dto.getPosition(), dto.getSalary());
+        return new Employee(dto.name(), dto.surname(), dto.position(), dto.salary());
     }
 }

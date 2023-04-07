@@ -84,10 +84,10 @@ public class EmployeeController extends AbstractCrudController<Employee, Employe
     @PutMapping("/{id}")
     EmployeeDto update(@PathVariable Integer id, @RequestBody EmployeeDto dto) throws ResponseStatusException {
         return service.readById(id).map(employee -> {
-            employee.setName(dto.getName());
-            employee.setSurname(dto.getSurname());
-            employee.setPosition(dto.getPosition());
-            employee.setSalary(dto.getSalary());
+            employee.setName(dto.name());
+            employee.setSurname(dto.surname());
+            employee.setPosition(dto.position());
+            employee.setSalary(dto.salary());
             return dtoConverter.toDto(service.update(employee));
         })
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));

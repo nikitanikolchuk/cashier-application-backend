@@ -18,6 +18,7 @@ import java.util.Objects;
 public class OrderDetailDtoConverter extends AbstractDtoConverter<OrderDetail, OrderDetailDto> {
     OrderService orderService;
     MenuItemService menuItemService;
+
     public OrderDetailDtoConverter(OrderService orderService, MenuItemService menuItemService) {
         this.orderService = orderService;
         this.menuItemService = menuItemService;
@@ -25,23 +26,24 @@ public class OrderDetailDtoConverter extends AbstractDtoConverter<OrderDetail, O
 
     @Override
     public OrderDetailDto toDto(OrderDetail entity) throws EntityNotFoundException {
-        OrderDetailDto dto = new OrderDetailDto();
-        dto.setOrderId(Objects.requireNonNull(entity.getId()).getOrderId());
-        dto.setItemId(entity.getId().getMenuItemId());
-        MenuItem menuItem = menuItemService.readById(entity.getId().getMenuItemId())
-                .orElseThrow(() -> new EntityNotFoundException("Not found menu item with id = " + dto.getItemId()));
-        dto.setName(menuItem.getName());
-        dto.setPrice(entity.getItemPrice());
-        dto.setQuantity(entity.getItemQuantity());
-        return dto;
+        MenuItem menuItem = menuItemService.readById(Objects.requireNonNull(entity.getId()).getMenuItemId())
+                .orElseThrow(() -> new EntityNotFoundException("Not found menu item with id = " + entity.getId().getMenuItemId()));
+
+        return new OrderDetailDto(
+                Objects.requireNonNull(entity.getId()).getOrderId(),
+                entity.getId().getMenuItemId(),
+                menuItem.getName(),
+                entity.getItemPrice(),
+                entity.getItemQuantity()
+        );
     }
 
     @Override
     public OrderDetail toEntity(OrderDetailDto dto) throws EntityNotFoundException {
-        Order order = orderService.readById(dto.getOrderId())
-                .orElseThrow(() -> new EntityNotFoundException("Not found order with id = " + dto.getOrderId()));
-        MenuItem menuItem = menuItemService.readById(dto.getItemId())
-                .orElseThrow(() -> new EntityNotFoundException("Not found menu item with id = " + dto.getItemId()));
-        return new OrderDetail(order, menuItem, dto.getQuantity());
+        Order order = orderService.readById(dto.orderId())
+                .orElseThrow(() -> new EntityNotFoundException("Not found order with id = " + dto.orderId()));
+        MenuItem menuItem = menuItemService.readById(dto.itemId())
+                .orElseThrow(() -> new EntityNotFoundException("Not found menu item with id = " + dto.itemId()));
+        return new OrderDetail(order, menuItem, dto.quantity());
     }
 }

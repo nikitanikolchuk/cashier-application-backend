@@ -32,8 +32,8 @@ public class MenuItemControllerTest {
         when(menuItemService.readById(1)).thenReturn(Optional.of(item));
 
         MenuItemDto result = menuItemController.readById(1);
-        Assertions.assertEquals(1, result.getId());
-        Assertions.assertEquals("test", result.getName());
-        Assertions.assertEquals(100, result.getPrice());
+        Assertions.assertEquals(1, result.id());
+        Assertions.assertEquals("test", result.name());
+        Assertions.assertEquals(100, result.price());
     }
 }
