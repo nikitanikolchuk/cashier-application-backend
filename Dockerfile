@@ -6,5 +6,5 @@ RUN gradle assemble
 FROM openjdk:18
 EXPOSE 8080
 WORKDIR app
-COPY --from=build /home/gradle/app/build/libs/cashier_application-1.0.0.jar spring-boot-application.jar
-ENTRYPOINT ["java","-jar","spring-boot-application.jar"]
+COPY --from=build /home/gradle/app/build/libs/cashier-application-backend-1.0.0.jar app.jar
+ENTRYPOINT ["java","-jar","app.jar"]
