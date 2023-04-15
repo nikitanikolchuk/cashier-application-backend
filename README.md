@@ -7,7 +7,41 @@ contains test data with coffeehouse items and roles.
 
 ## Database model
 
-![database model](src/main/resources/database_model.png)
+```mermaid
+erDiagram
+    Order 0+ to 1 Employee : "served by"
+    Order 1 to 1+ Order_detail : "contains"
+    Order_detail 0+ to 1 Menu_item : "used in"
+    Menu_item 0+ to 0+ Category : "belongs to"
+    Order {
+        int id_order PK
+        datetime datetime
+    }
+    Employee {
+        int id_employee PK
+        string name
+        string surname
+        string position
+        int salary
+        bool archived
+    }
+    Order_detail {
+        int id_order PK, FK
+        int id_menu_item PK, FK
+        int quantity
+        int price
+    }
+    Menu_item {
+        int id_menu_item PK
+        string name
+        int price
+        bool archived
+    }
+    Category {
+        int id_category PK
+        string name
+    }
+```
 
 ## Complex database query
 
