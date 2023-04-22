@@ -2,8 +2,8 @@
 
 This is a study project for Java Technology course from the Faculty of Information Technologies of Czech Technical
 University. It is a simple Spring Boot cashier server application that allows employees to save orders and managers to
-get statistics about their business. The application uses an external free database provided by ElephantSQL that
-contains test data with coffeehouse items and roles.
+get statistics about their business. The application uses locally hosted PostgreSQL database and an SQL script that
+fills it with test data with coffeehouse items and roles.
 
 ## Database model
 
