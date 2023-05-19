@@ -1,7 +1,8 @@
 package cz.cvut.fit.tjv.cashier_application.api;
 
-import cz.cvut.fit.tjv.cashier_application.api.model.OrderDetailDto;
-import cz.cvut.fit.tjv.cashier_application.api.model.OrderDto;
+import cz.cvut.fit.tjv.cashier_application.api.model.OrderDetailRequestDto;
+import cz.cvut.fit.tjv.cashier_application.api.model.OrderRequestDto;
+import cz.cvut.fit.tjv.cashier_application.api.model.OrderResponseDto;
 import cz.cvut.fit.tjv.cashier_application.api.model.converter.OrderDtoConverter;
 import cz.cvut.fit.tjv.cashier_application.business.MenuItemService;
 import cz.cvut.fit.tjv.cashier_application.business.OrderDetailService;
@@ -20,7 +21,7 @@ import java.time.LocalDate;
  */
 @RestController
 @RequestMapping("/orders")
-public class OrderController extends AbstractCrudController<Order, OrderDto, Integer> {
+public class OrderController extends AbstractCrudController<Order, OrderRequestDto, OrderResponseDto, Integer> {
     MenuItemService menuItemService;
     OrderDetailService orderDetailService;
 
@@ -40,11 +41,11 @@ public class OrderController extends AbstractCrudController<Order, OrderDto, Int
      */
     @Override
     @PostMapping
-    public OrderDto create(@RequestBody OrderDto dto) throws ResponseStatusException {
+    public OrderResponseDto create(@RequestBody OrderRequestDto dto) throws ResponseStatusException {
         Order order = service.create(dtoConverter.toEntity(dto));
         if (order.getEmployee().isArchived())
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-        for (OrderDetailDto detailDto : dto.details()) {
+        for (OrderDetailRequestDto detailDto : dto.details()) {
             MenuItem menuItem = menuItemService.readById(detailDto.itemId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY));
             if (menuItem.isArchived())

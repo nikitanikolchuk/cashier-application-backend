@@ -1,6 +1,7 @@
 package cz.cvut.fit.tjv.cashier_application.api;
 
-import cz.cvut.fit.tjv.cashier_application.api.model.MenuItemDto;
+import cz.cvut.fit.tjv.cashier_application.api.model.MenuItemRequestDto;
+import cz.cvut.fit.tjv.cashier_application.api.model.MenuItemResponseDto;
 import cz.cvut.fit.tjv.cashier_application.api.model.converter.MenuItemDtoConverter;
 import cz.cvut.fit.tjv.cashier_application.business.MenuItemService;
 import cz.cvut.fit.tjv.cashier_application.domain.MenuItem;
@@ -16,7 +17,7 @@ import java.util.stream.StreamSupport;
  */
 @RestController
 @RequestMapping("/items")
-public class MenuItemController extends AbstractCrudController<MenuItem, MenuItemDto, Integer> {
+public class MenuItemController extends AbstractCrudController<MenuItem, MenuItemRequestDto, MenuItemResponseDto, Integer> {
     public MenuItemController(MenuItemService service) {
         super(service, new MenuItemDtoConverter());
     }
@@ -28,7 +29,7 @@ public class MenuItemController extends AbstractCrudController<MenuItem, MenuIte
      */
     @Override
     @GetMapping
-    public Collection<MenuItemDto> readAll() {
+    public Collection<MenuItemResponseDto> readAll() {
         return StreamSupport.stream(((MenuItemService) service).readAllActive().spliterator(), false)
                 .map(dtoConverter::toDto)
                 .toList();
@@ -40,7 +41,7 @@ public class MenuItemController extends AbstractCrudController<MenuItem, MenuIte
      * @return collection of menu item DTOs
      */
     @GetMapping("/archive")
-    public Collection<MenuItemDto> readArchived() {
+    public Collection<MenuItemResponseDto> readArchived() {
         return StreamSupport.stream(((MenuItemService) service).readAllArchived().spliterator(), false)
                 .map(dtoConverter::toDto)
                 .toList();
@@ -55,7 +56,7 @@ public class MenuItemController extends AbstractCrudController<MenuItem, MenuIte
      * @throws ResponseStatusException if there is no item with this id
      */
     @PutMapping("/{id}")
-    MenuItemDto update(@PathVariable Integer id, @RequestBody MenuItemDto dto) throws ResponseStatusException {
+    MenuItemResponseDto update(@PathVariable Integer id, @RequestBody MenuItemRequestDto dto) throws ResponseStatusException {
         return service.readById(id).map(menuItem -> {
             menuItem.setName(dto.name());
             menuItem.setPrice(dto.price());

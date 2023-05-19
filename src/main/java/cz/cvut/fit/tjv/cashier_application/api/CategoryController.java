@@ -1,7 +1,8 @@
 package cz.cvut.fit.tjv.cashier_application.api;
 
-import cz.cvut.fit.tjv.cashier_application.api.model.CategoryDto;
-import cz.cvut.fit.tjv.cashier_application.api.model.MenuItemDto;
+import cz.cvut.fit.tjv.cashier_application.api.model.CategoryRequestDto;
+import cz.cvut.fit.tjv.cashier_application.api.model.CategoryResponseDto;
+import cz.cvut.fit.tjv.cashier_application.api.model.MenuItemResponseDto;
 import cz.cvut.fit.tjv.cashier_application.api.model.converter.CategoryDtoConverter;
 import cz.cvut.fit.tjv.cashier_application.api.model.converter.MenuItemDtoConverter;
 import cz.cvut.fit.tjv.cashier_application.business.CategoryService;
@@ -19,7 +20,7 @@ import java.util.Collection;
  */
 @RestController
 @RequestMapping("/categories")
-public class CategoryController extends AbstractCrudController<Category, CategoryDto, Integer> {
+public class CategoryController extends AbstractCrudController<Category, CategoryRequestDto, CategoryResponseDto, Integer> {
     MenuItemService menuItemService;
     MenuItemDtoConverter menuItemDtoConverter;
 
@@ -38,7 +39,7 @@ public class CategoryController extends AbstractCrudController<Category, Categor
      * @throws ResponseStatusException if there is no category with this id
      */
     @GetMapping("/{id}/items")
-    public Collection<MenuItemDto> readItems(@PathVariable Integer id) throws ResponseStatusException {
+    public Collection<MenuItemResponseDto> readItems(@PathVariable Integer id) throws ResponseStatusException {
         Category category = service.readById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         return category.getMenuItems().stream().map(menuItemDtoConverter::toDto).toList();
@@ -53,7 +54,7 @@ public class CategoryController extends AbstractCrudController<Category, Categor
      * @throws ResponseStatusException if there is no category with this id
      */
     @PutMapping("/{id}")
-    public CategoryDto updateName(@PathVariable Integer id, @RequestParam String name)  throws ResponseStatusException {
+    public CategoryResponseDto updateName(@PathVariable Integer id, @RequestParam String name) throws ResponseStatusException {
         return service.readById(id).map(category -> {
             category.setName(name);
             return dtoConverter.toDto(service.update(category));
@@ -70,7 +71,7 @@ public class CategoryController extends AbstractCrudController<Category, Categor
      * @throws ResponseStatusException if category or item id is invalid
      */
     @PutMapping("/{id}/items")
-    public Collection<MenuItemDto> addItem(@PathVariable Integer id, @RequestParam Integer itemId) throws ResponseStatusException {
+    public Collection<MenuItemResponseDto> addItem(@PathVariable Integer id, @RequestParam Integer itemId) throws ResponseStatusException {
         Category category = service.readById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         MenuItem menuItem = menuItemService.readById(itemId)
@@ -91,7 +92,7 @@ public class CategoryController extends AbstractCrudController<Category, Categor
      * @throws ResponseStatusException if there is no category or item with these ids
      */
     @DeleteMapping("/{id}/items")
-    public Collection<MenuItemDto> deleteItem(@PathVariable Integer id, @RequestParam Integer itemId) throws ResponseStatusException {
+    public Collection<MenuItemResponseDto> deleteItem(@PathVariable Integer id, @RequestParam Integer itemId) throws ResponseStatusException {
         Category category = service.readById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         MenuItem menuItem = menuItemService.readById(itemId)

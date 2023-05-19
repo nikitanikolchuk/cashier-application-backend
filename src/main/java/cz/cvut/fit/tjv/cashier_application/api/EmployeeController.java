@@ -1,6 +1,7 @@
 package cz.cvut.fit.tjv.cashier_application.api;
 
-import cz.cvut.fit.tjv.cashier_application.api.model.EmployeeDto;
+import cz.cvut.fit.tjv.cashier_application.api.model.EmployeeRequestDto;
+import cz.cvut.fit.tjv.cashier_application.api.model.EmployeeResponseDto;
 import cz.cvut.fit.tjv.cashier_application.api.model.converter.EmployeeDtoConverter;
 import cz.cvut.fit.tjv.cashier_application.api.model.converter.OrderDtoConverter;
 import cz.cvut.fit.tjv.cashier_application.business.EmployeeService;
@@ -19,7 +20,7 @@ import java.util.stream.StreamSupport;
  */
 @RestController
 @RequestMapping("/employees")
-public class EmployeeController extends AbstractCrudController<Employee, EmployeeDto, Integer> {
+public class EmployeeController extends AbstractCrudController<Employee, EmployeeRequestDto, EmployeeResponseDto, Integer> {
     OrderDtoConverter orderDtoConverter;
 
     public EmployeeController(EmployeeService service, EmployeeDtoConverter employeeDtoConverter,
@@ -36,7 +37,7 @@ public class EmployeeController extends AbstractCrudController<Employee, Employe
      */
     @Override
     @GetMapping
-    public Collection<EmployeeDto> readAll() {
+    public Collection<EmployeeResponseDto> readAll() {
         return StreamSupport.stream(((EmployeeService) service).readAllActive().spliterator(), false)
                 .map(dtoConverter::toDto)
                 .toList();
@@ -49,7 +50,7 @@ public class EmployeeController extends AbstractCrudController<Employee, Employe
      * @throws ResponseStatusException if there was an error during DTO conversion
      */
     @GetMapping("/archive")
-    public Collection<EmployeeDto> readArchived() {
+    public Collection<EmployeeResponseDto> readArchived() {
         return StreamSupport.stream(((EmployeeService) service).readAllArchived().spliterator(), false)
                 .map(dtoConverter::toDto)
                 .toList();
@@ -82,7 +83,7 @@ public class EmployeeController extends AbstractCrudController<Employee, Employe
      * @throws ResponseStatusException if there is no employee with this id
      */
     @PutMapping("/{id}")
-    EmployeeDto update(@PathVariable Integer id, @RequestBody EmployeeDto dto) throws ResponseStatusException {
+    EmployeeResponseDto update(@PathVariable Integer id, @RequestBody EmployeeRequestDto dto) throws ResponseStatusException {
         return service.readById(id).map(employee -> {
             employee.setName(dto.name());
             employee.setSurname(dto.surname());

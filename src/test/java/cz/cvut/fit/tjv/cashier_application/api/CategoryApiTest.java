@@ -1,6 +1,6 @@
 package cz.cvut.fit.tjv.cashier_application.api;
 
-import cz.cvut.fit.tjv.cashier_application.api.model.MenuItemDto;
+import cz.cvut.fit.tjv.cashier_application.api.model.MenuItemResponseDto;
 import cz.cvut.fit.tjv.cashier_application.api.model.converter.CategoryDtoConverter;
 import cz.cvut.fit.tjv.cashier_application.api.model.converter.MenuItemDtoConverter;
 import cz.cvut.fit.tjv.cashier_application.business.CategoryService;
@@ -43,7 +43,7 @@ public class CategoryApiTest {
         when(item1.getName()).thenReturn("test1");
         when(item1.getPrice()).thenReturn(100);
 
-        MenuItemDto itemDto1 = new MenuItemDto(
+        MenuItemResponseDto itemDto1 = new MenuItemResponseDto(
                 Objects.requireNonNull(item1.getId()),
                 item1.getName(),
                 item1.getPrice()
@@ -56,7 +56,7 @@ public class CategoryApiTest {
         when(item2.getName()).thenReturn("test2");
         when(item2.getPrice()).thenReturn(200);
 
-        MenuItemDto itemDto2 = new MenuItemDto(
+        MenuItemResponseDto itemDto2 = new MenuItemResponseDto(
                 Objects.requireNonNull(item2.getId()),
                 item2.getName(),
                 item2.getPrice()

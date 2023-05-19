@@ -8,14 +8,22 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static org.mockito.Mockito.mock;
 
 @SpringBootTest
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
+@TestPropertySource(properties = {
+        "spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.H2Dialect"
+})
 public class OrderServiceTest {
     @MockBean
     OrderDetailJpaRepository orderDetailJpaRepository;
@@ -40,6 +48,6 @@ public class OrderServiceTest {
         }};
 
         Mockito.when(orderDetailJpaRepository.findAllByOrder_Id(order.getId())).thenReturn(details);
-        Assertions.assertEquals(180, orderService.calculatePrice(order.getId()));
+        Assertions.assertEquals(180, orderService.calculatePrice(Objects.requireNonNull(order.getId())));
     }
 }

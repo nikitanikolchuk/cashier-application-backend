@@ -1,6 +1,7 @@
 package cz.cvut.fit.tjv.cashier_application.api.model.converter;
 
-import cz.cvut.fit.tjv.cashier_application.api.model.MenuItemDto;
+import cz.cvut.fit.tjv.cashier_application.api.model.MenuItemRequestDto;
+import cz.cvut.fit.tjv.cashier_application.api.model.MenuItemResponseDto;
 import cz.cvut.fit.tjv.cashier_application.domain.MenuItem;
 import org.springframework.stereotype.Component;
 
@@ -10,10 +11,10 @@ import java.util.Objects;
  * DTO converter class for MenuItem and MenuItemDto types.
  */
 @Component
-public class MenuItemDtoConverter extends AbstractDtoConverter<MenuItem, MenuItemDto> {
+public class MenuItemDtoConverter extends AbstractDtoConverter<MenuItem, MenuItemRequestDto, MenuItemResponseDto> {
     @Override
-    public MenuItemDto toDto(MenuItem entity) {
-        return new MenuItemDto(
+    public MenuItemResponseDto toDto(MenuItem entity) {
+        return new MenuItemResponseDto(
                 Objects.requireNonNull(entity.getId()),
                 entity.getName(),
                 entity.getPrice()
@@ -21,7 +22,7 @@ public class MenuItemDtoConverter extends AbstractDtoConverter<MenuItem, MenuIte
     }
 
     @Override
-    public MenuItem toEntity(MenuItemDto dto) {
+    public MenuItem toEntity(MenuItemRequestDto dto) {
         return new MenuItem(dto.name(), dto.price());
     }
 }

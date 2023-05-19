@@ -15,14 +15,16 @@ import java.util.stream.StreamSupport;
  * Abstract Rest CRUD controller class.
  *
  * @param <E> entity type that implements Persistable
- * @param <D> DTO type
+ * @param <RequestT>> request DTO type
+ * @param <ResponseT> response DTO type
  * @param <ID> entity ID type
  */
-public abstract class AbstractCrudController<E extends Persistable<ID>, D, ID> {
+public abstract class AbstractCrudController<E extends Persistable<ID>, RequestT, ResponseT, ID> {
     protected AbstractCrudService<E, ID> service;
-    protected AbstractDtoConverter<E, D> dtoConverter;
+    protected AbstractDtoConverter<E, RequestT, ResponseT> dtoConverter;
 
-    public AbstractCrudController(AbstractCrudService<E, ID> service, AbstractDtoConverter<E, D> converter) {
+    public AbstractCrudController(AbstractCrudService<E, ID> service,
+                                  AbstractDtoConverter<E, RequestT, ResponseT> converter) {
         this.service = service;
         this.dtoConverter = converter;
     }
@@ -35,7 +37,7 @@ public abstract class AbstractCrudController<E extends Persistable<ID>, D, ID> {
      * @throws ResponseStatusException if there was an error during DTO conversion
      */
     @PostMapping
-    public D create(@RequestBody D dto) throws ResponseStatusException {
+    public ResponseT create(@RequestBody RequestT dto) throws ResponseStatusException {
         try {
             return dtoConverter.toDto(service.create(dtoConverter.toEntity(dto)));
         } catch (NullPointerException | EntityNotFoundException e) {
@@ -51,7 +53,7 @@ public abstract class AbstractCrudController<E extends Persistable<ID>, D, ID> {
      * @throws ResponseStatusException if there is no entity with this id
      */
     @GetMapping("/{id}")
-    public D readById(@PathVariable ID id) throws ResponseStatusException {
+    public ResponseT readById(@PathVariable ID id) throws ResponseStatusException {
         E entity = service.readById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         return dtoConverter.toDto(entity);
@@ -63,7 +65,7 @@ public abstract class AbstractCrudController<E extends Persistable<ID>, D, ID> {
      * @return collection of DTOs of this entity type
      */
     @GetMapping
-    public Collection<D> readAll() {
+    public Collection<ResponseT> readAll() {
         return StreamSupport.stream(service.readAll().spliterator(), false).map(dtoConverter::toDto).toList();
     }
 

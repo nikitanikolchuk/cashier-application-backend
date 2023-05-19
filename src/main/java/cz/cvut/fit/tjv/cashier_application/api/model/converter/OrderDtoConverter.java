@@ -1,7 +1,8 @@
 package cz.cvut.fit.tjv.cashier_application.api.model.converter;
 
-import cz.cvut.fit.tjv.cashier_application.api.model.OrderDetailDto;
-import cz.cvut.fit.tjv.cashier_application.api.model.OrderDto;
+import cz.cvut.fit.tjv.cashier_application.api.model.OrderDetailResponseDto;
+import cz.cvut.fit.tjv.cashier_application.api.model.OrderRequestDto;
+import cz.cvut.fit.tjv.cashier_application.api.model.OrderResponseDto;
 import cz.cvut.fit.tjv.cashier_application.business.EmployeeService;
 import cz.cvut.fit.tjv.cashier_application.business.OrderService;
 import cz.cvut.fit.tjv.cashier_application.domain.Employee;
@@ -17,7 +18,7 @@ import java.util.Objects;
  * DTO converter class for Order and OrderDto types.
  */
 @Component
-public class OrderDtoConverter extends AbstractDtoConverter<Order, OrderDto> {
+public class OrderDtoConverter extends AbstractDtoConverter<Order, OrderRequestDto, OrderResponseDto> {
     OrderService orderService;
     EmployeeService employeeService;
     OrderDetailDtoConverter orderDetailDtoConverter;
@@ -29,12 +30,12 @@ public class OrderDtoConverter extends AbstractDtoConverter<Order, OrderDto> {
     }
 
     @Override
-    public OrderDto toDto(Order entity) throws EntityNotFoundException {
-        Collection<OrderDetailDto> details = entity.getOrderDetails().stream()
+    public OrderResponseDto toDto(Order entity) throws EntityNotFoundException {
+        Collection<OrderDetailResponseDto> details = entity.getOrderDetails().stream()
                 .map(orderDetailDtoConverter::toDto)
                 .toList();
 
-        return new OrderDto(
+        return new OrderResponseDto(
                 Objects.requireNonNull(entity.getId()),
                 entity.getDateTime().format(DateTimeFormatter.ISO_DATE_TIME),
                 Objects.requireNonNull(entity.getEmployee().getId()),
@@ -44,7 +45,7 @@ public class OrderDtoConverter extends AbstractDtoConverter<Order, OrderDto> {
     }
 
     @Override
-    public Order toEntity(OrderDto dto) throws EntityNotFoundException {
+    public Order toEntity(OrderRequestDto dto) throws EntityNotFoundException {
         Employee employee = employeeService.readById(dto.employeeId())
                 .orElseThrow(() -> new EntityNotFoundException("Not found employee with id = " + dto.employeeId()));
         return new Order(employee);
