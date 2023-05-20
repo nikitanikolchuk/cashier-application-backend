@@ -7,7 +7,7 @@ public record OrderDetailResponseDto(
         int orderId,
         int itemId,
         String name,
-        int quantity,
-        int price
+        int price,
+        int quantity
 ) {
 }
