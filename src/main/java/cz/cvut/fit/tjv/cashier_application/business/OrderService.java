@@ -32,7 +32,7 @@ public class OrderService extends AbstractCrudService<Order, Integer> {
      */
     public int calculatePrice(int id) {
         return orderDetailJpaRepository.findAllByOrder_Id(id).stream()
-                .map(orderDetail -> orderDetail.getItemQuantity() * orderDetail.getItemPrice())
+                .map(orderDetail -> orderDetail.getMenuItem().getPrice() * orderDetail.getItemQuantity())
                 .reduce(0, Integer::sum);
     }
 

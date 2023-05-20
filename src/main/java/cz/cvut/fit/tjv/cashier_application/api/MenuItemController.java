@@ -48,24 +48,6 @@ public class MenuItemController extends AbstractCrudController<MenuItem, MenuIte
     }
 
     /**
-     * Update data of a menu item.
-     *
-     * @param id id of the item
-     * @param dto DTO with new data
-     * @return DTO of the updated item
-     * @throws ResponseStatusException if there is no item with this id
-     */
-    @PutMapping("/{id}")
-    MenuItemResponseDto update(@PathVariable Integer id, @RequestBody MenuItemRequestDto dto) throws ResponseStatusException {
-        return service.readById(id).map(menuItem -> {
-            menuItem.setName(dto.name());
-            menuItem.setPrice(dto.price());
-            return dtoConverter.toDto(service.update(menuItem));
-        })
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-    }
-
-    /**
      * Archive a menu item by id.
      *
      * @param id id of the menu item

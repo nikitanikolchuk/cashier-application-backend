@@ -7,7 +7,6 @@ import java.util.Collection;
  */
 public record OrderRequestDto(
         int employeeId,
-        int price,
         Collection<OrderDetailRequestDto> details
 ) {
 }

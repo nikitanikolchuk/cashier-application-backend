@@ -27,11 +27,6 @@ public class OrderDetail implements Persistable<OrderDetailKey> {
      */
     @Column(name = "quantity")
     int itemQuantity;
-    /**
-     * Price of the item at the moment of order creation.
-     */
-    @Column(name = "price")
-    int itemPrice;
 
     /**
      * Create new instance of class MenuItemOrder.
@@ -47,7 +42,6 @@ public class OrderDetail implements Persistable<OrderDetailKey> {
         this.order = order;
         this.menuItem = menuItem;
         this.itemQuantity = itemQuantity;
-        this.itemPrice = menuItem.getPrice();
     }
 
     public OrderDetail(){
@@ -90,13 +84,5 @@ public class OrderDetail implements Persistable<OrderDetailKey> {
 
     public void setItemQuantity(int itemQuantity) {
         this.itemQuantity = itemQuantity;
-    }
-
-    public int getItemPrice() {
-        return itemPrice;
-    }
-
-    public void setItemPrice(int itemPrice) {
-        this.itemPrice = itemPrice;
     }
 }

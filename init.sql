@@ -49,8 +49,7 @@ CREATE TABLE order_detail
 (
     id_order     SERIAL  NOT NULL,
     id_menu_item SERIAL  NOT NULL,
-    quantity     INTEGER NOT NULL,
-    price        INTEGER NOT NULL
+    quantity     INTEGER NOT NULL
 );
 ALTER TABLE order_detail
     ADD CONSTRAINT pk_order_detail PRIMARY KEY (id_order, id_menu_item);
@@ -121,36 +120,36 @@ VALUES (15, 13);
 INSERT INTO "order"
 VALUES (16, 1, '2022-12-1'::timestamp without time zone);
 INSERT INTO order_detail
-VALUES (16, 6, 1, 50);
+VALUES (16, 6, 1);
 
 INSERT INTO "order"
 VALUES (17, 1, '2022-12-10'::timestamp without time zone);
 INSERT INTO order_detail
-VALUES (17, 7, 1, 65);
+VALUES (17, 7, 1);
 
 INSERT INTO "order"
 VALUES (18, 2, '2022-12-15'::timestamp without time zone);
 INSERT INTO order_detail
-VALUES (18, 8, 1, 75);
+VALUES (18, 8, 1);
 
 INSERT INTO "order"
 VALUES (19, 3, '2022-12-20'::timestamp without time zone);
 INSERT INTO order_detail
-VALUES (19, 10, 2, 38);
+VALUES (19, 10, 2);
 
 INSERT INTO "order"
 VALUES (20, 4, '2022-12-30'::timestamp without time zone);
 INSERT INTO order_detail
-VALUES (20, 12, 1, 50);
+VALUES (20, 12, 1);
 
 INSERT INTO "order"
 VALUES (21, 5, '2023-1-1'::timestamp without time zone);
 INSERT INTO order_detail
-VALUES (21, 7, 1, 65);
+VALUES (21, 7, 1);
 
 INSERT INTO "order"
 VALUES (22, 5, '2023-1-10'::timestamp without time zone);
 INSERT INTO order_detail
-VALUES (22, 6, 1, 50);
+VALUES (22, 6, 1);
 INSERT INTO order_detail
-VALUES (22, 11, 1, 85);
+VALUES (22, 11, 1);

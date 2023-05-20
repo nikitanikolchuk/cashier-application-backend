@@ -33,7 +33,7 @@ public class OrderDetailDtoConverter extends AbstractDtoConverter<OrderDetail, O
                 Objects.requireNonNull(entity.getId()).getOrderId(),
                 entity.getId().getMenuItemId(),
                 menuItem.getName(),
-                entity.getItemPrice(),
+                menuItem.getPrice(),
                 entity.getItemQuantity()
         );
     }

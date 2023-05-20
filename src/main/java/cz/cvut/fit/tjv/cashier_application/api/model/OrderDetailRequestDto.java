@@ -5,8 +5,6 @@ package cz.cvut.fit.tjv.cashier_application.api.model;
  */
 public record OrderDetailRequestDto(
         int itemId,
-        String name,
-        int quantity,
-        int price
+        int quantity
 ) {
 }
