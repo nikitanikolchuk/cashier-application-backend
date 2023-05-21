@@ -67,89 +67,120 @@ ALTER TABLE order_detail
 ALTER TABLE order_detail
     ADD CONSTRAINT fk_order_detail_menu_item FOREIGN KEY (id_menu_item) REFERENCES menu_item (id_menu_item) ON DELETE CASCADE;
 
-INSERT INTO employee
-VALUES (1, 'Boris', 'Jiráček', 'barista', 25000, false);
-INSERT INTO employee
-VALUES (2, 'Valentýn', 'Kovanda', 'manager', 30000, false);
-INSERT INTO employee
-VALUES (3, 'Robert', 'Šmolík', 'barista', 20000, false);
-INSERT INTO employee
-VALUES (4, 'Simona', 'Zárubová', 'barista', 22000, false);
-INSERT INTO employee
-VALUES (5, 'Hana', 'Jiráčková', 'barista', 22000, false);
+INSERT INTO employee (name, surname, position, salary, archived)
+VALUES ('Boris', 'Jiráček', 'barista', 25000, false);
+INSERT INTO employee (name, surname, position, salary, archived)
+VALUES ('Valentýn', 'Kovanda', 'manager', 30000, false);
+INSERT INTO employee (name, surname, position, salary, archived)
+VALUES ('Robert', 'Šmolík', 'barista', 20000, false);
+INSERT INTO employee (name, surname, position, salary, archived)
+VALUES ('Simona', 'Zárubová', 'barista', 22000, false);
+INSERT INTO employee (name, surname, position, salary, archived)
+VALUES ('Hana', 'Jiráčková', 'barista', 22000, false);
 
-INSERT INTO menu_item
-VALUES (6, 'espresso', 50, false);
-INSERT INTO menu_item
-VALUES (7, 'cappuccino', 65, false);
-INSERT INTO menu_item
-VALUES (8, 'latte', 75, false);
-INSERT INTO menu_item
-VALUES (9, 'water', 33, false);
-INSERT INTO menu_item
-VALUES (10, 'cola', 38, false);
-INSERT INTO menu_item
-VALUES (11, 'cheesecake', 85, false);
-INSERT INTO menu_item
-VALUES (12, 'croissant', 50, false);
-INSERT INTO menu_item
-VALUES (13, 'cupcake', 40, false);
+INSERT INTO menu_item (name, price, archived)
+VALUES ('espresso', 50, false);
+INSERT INTO menu_item (name, price, archived)
+VALUES ('cappuccino', 65, false);
+INSERT INTO menu_item (name, price, archived)
+VALUES ('latte', 75, false);
+INSERT INTO menu_item (name, price, archived)
+VALUES ('water', 33, false);
+INSERT INTO menu_item (name, price, archived)
+VALUES ('cola', 38, false);
+INSERT INTO menu_item (name, price, archived)
+VALUES ('cheesecake', 85, false);
+INSERT INTO menu_item (name, price, archived)
+VALUES ('croissant', 50, false);
+INSERT INTO menu_item (name, price, archived)
+VALUES ('cupcake', 40, false);
 
-INSERT INTO category
-VALUES (14, 'drink');
-INSERT INTO category
-VALUES (15, 'food');
+INSERT INTO category (name)
+VALUES ('drink');
+INSERT INTO category (name)
+VALUES ('food');
 
-INSERT INTO category_menu_item
-VALUES (14, 6);
-INSERT INTO category_menu_item
-VALUES (14, 7);
-INSERT INTO category_menu_item
-VALUES (14, 8);
-INSERT INTO category_menu_item
-VALUES (14, 9);
-INSERT INTO category_menu_item
-VALUES (14, 10);
-INSERT INTO category_menu_item
-VALUES (15, 11);
-INSERT INTO category_menu_item
-VALUES (15, 12);
-INSERT INTO category_menu_item
-VALUES (15, 13);
+INSERT INTO category_menu_item (id_category, id_menu_item)
+VALUES ((SELECT id_category FROM category WHERE name = 'drink'),
+        (SELECT id_menu_item FROM menu_item WHERE name = 'espresso'));
+INSERT INTO category_menu_item (id_category, id_menu_item)
+VALUES ((SELECT id_category FROM category WHERE name = 'drink'),
+        (SELECT id_menu_item FROM menu_item WHERE name = 'cappuccino'));
+INSERT INTO category_menu_item (id_category, id_menu_item)
+VALUES ((SELECT id_category FROM category WHERE name = 'drink'),
+        (SELECT id_menu_item FROM menu_item WHERE name = 'latte'));
+INSERT INTO category_menu_item (id_category, id_menu_item)
+VALUES ((SELECT id_category FROM category WHERE name = 'drink'),
+        (SELECT id_menu_item FROM menu_item WHERE name = 'water'));
+INSERT INTO category_menu_item (id_category, id_menu_item)
+VALUES ((SELECT id_category FROM category WHERE name = 'drink'),
+        (SELECT id_menu_item FROM menu_item WHERE name = 'cola'));
+INSERT INTO category_menu_item (id_category, id_menu_item)
+VALUES ((SELECT id_category FROM category WHERE name = 'food'),
+        (SELECT id_menu_item FROM menu_item WHERE name = 'cheesecake'));
+INSERT INTO category_menu_item (id_category, id_menu_item)
+VALUES ((SELECT id_category FROM category WHERE name = 'food'),
+        (SELECT id_menu_item FROM menu_item WHERE name = 'croissant'));
+INSERT INTO category_menu_item (id_category, id_menu_item)
+VALUES ((SELECT id_category FROM category WHERE name = 'food'),
+        (SELECT id_menu_item FROM menu_item WHERE name = 'cupcake'));
 
-INSERT INTO "order"
-VALUES (16, 1, '2022-12-1'::timestamp without time zone);
-INSERT INTO order_detail
-VALUES (16, 6, 1);
+INSERT INTO "order" (employee_id_employee, date_time)
+VALUES ((SELECT id_employee FROM employee WHERE name = 'Boris'),
+        '2022-12-1'::timestamp without time zone);
+INSERT INTO order_detail (id_order, id_menu_item, quantity)
+VALUES (currval(pg_get_serial_sequence('order', 'id_order')),
+        (SELECT id_menu_item FROM menu_item WHERE name = 'espresso'),
+        1);
 
-INSERT INTO "order"
-VALUES (17, 1, '2022-12-10'::timestamp without time zone);
-INSERT INTO order_detail
-VALUES (17, 7, 1);
+INSERT INTO "order" (employee_id_employee, date_time)
+VALUES ((SELECT id_employee FROM employee WHERE name = 'Valentýn'),
+        '2022-12-10'::timestamp without time zone);
+INSERT INTO order_detail (id_order, id_menu_item, quantity)
+VALUES (currval(pg_get_serial_sequence('order', 'id_order')),
+        (SELECT id_menu_item FROM menu_item WHERE name = 'cappuccino'),
+        1);
 
-INSERT INTO "order"
-VALUES (18, 2, '2022-12-15'::timestamp without time zone);
-INSERT INTO order_detail
-VALUES (18, 8, 1);
+INSERT INTO "order" (employee_id_employee, date_time)
+VALUES ((SELECT id_employee FROM employee WHERE name = 'Robert'),
+        '2022-12-15'::timestamp without time zone);
+INSERT INTO order_detail (id_order, id_menu_item, quantity)
+VALUES (currval(pg_get_serial_sequence('order', 'id_order')),
+        (SELECT id_menu_item FROM menu_item WHERE name = 'latte'),
+        1);
 
-INSERT INTO "order"
-VALUES (19, 3, '2022-12-20'::timestamp without time zone);
-INSERT INTO order_detail
-VALUES (19, 10, 2);
+INSERT INTO "order" (employee_id_employee, date_time)
+VALUES ((SELECT id_employee FROM employee WHERE name = 'Simona'),
+        '2022-12-20'::timestamp without time zone);
+INSERT INTO order_detail (id_order, id_menu_item, quantity)
+VALUES (currval(pg_get_serial_sequence('order', 'id_order')),
+        (SELECT id_menu_item FROM menu_item WHERE name = 'water'),
+        2);
 
-INSERT INTO "order"
-VALUES (20, 4, '2022-12-30'::timestamp without time zone);
-INSERT INTO order_detail
-VALUES (20, 12, 1);
+INSERT INTO "order" (employee_id_employee, date_time)
+VALUES ((SELECT id_employee FROM employee WHERE name = 'Hana'),
+        '2022-12-30'::timestamp without time zone);
+INSERT INTO order_detail (id_order, id_menu_item, quantity)
+VALUES (currval(pg_get_serial_sequence('order', 'id_order')),
+        (SELECT id_menu_item FROM menu_item WHERE name = 'cola'),
+        1);
 
-INSERT INTO "order"
-VALUES (21, 5, '2023-1-1'::timestamp without time zone);
-INSERT INTO order_detail
-VALUES (21, 7, 1);
+INSERT INTO "order" (employee_id_employee, date_time)
+VALUES ((SELECT id_employee FROM employee WHERE name = 'Boris'),
+        '2023-1-1'::timestamp without time zone);
+INSERT INTO order_detail (id_order, id_menu_item, quantity)
+VALUES (currval(pg_get_serial_sequence('order', 'id_order')),
+        (SELECT id_menu_item FROM menu_item WHERE name = 'cheesecake'),
+        1);
 
-INSERT INTO "order"
-VALUES (22, 5, '2023-1-10'::timestamp without time zone);
-INSERT INTO order_detail
-VALUES (22, 6, 1);
-INSERT INTO order_detail
-VALUES (22, 11, 1);
+INSERT INTO "order" (employee_id_employee, date_time)
+VALUES ((SELECT id_employee FROM employee WHERE name = 'Boris'),
+        '2023-1-10'::timestamp without time zone);
+INSERT INTO order_detail (id_order, id_menu_item, quantity)
+VALUES (currval(pg_get_serial_sequence('order', 'id_order')),
+        (SELECT id_menu_item FROM menu_item WHERE name = 'latte'),
+        1);
+INSERT INTO order_detail (id_order, id_menu_item, quantity)
+VALUES (currval(pg_get_serial_sequence('order', 'id_order')),
+        (SELECT id_menu_item FROM menu_item WHERE name = 'cupcake'),
+        1);
