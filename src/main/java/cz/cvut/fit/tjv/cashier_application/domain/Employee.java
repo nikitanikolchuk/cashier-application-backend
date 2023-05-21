@@ -1,16 +1,23 @@
 package cz.cvut.fit.tjv.cashier_application.domain;
 
-import org.springframework.data.jpa.domain.AbstractPersistable;
+import org.springframework.data.domain.Persistable;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * Domain type Employee. Uses int as a primary key.
  */
 @Entity
-@AttributeOverride(name = "id", column = @Column(name = "id_employee"))
-public class Employee extends AbstractPersistable<Integer> {
+public class Employee implements Persistable<Integer> {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_employee")
+    private int id;
     private String name;
     private String surname;
     private String position;
@@ -25,10 +32,10 @@ public class Employee extends AbstractPersistable<Integer> {
     /**
      * Create new instance of Employee class.
      *
-     * @param name name of the employee
-     * @param surname surname of the employee
+     * @param name     name of the employee
+     * @param surname  surname of the employee
      * @param position position of the employee, can be either "barista" or "manager"
-     * @param salary salary of the employee
+     * @param salary   salary of the employee
      */
     public Employee(String name, String surname, String position, int salary) {
         this.name = name;
@@ -38,6 +45,17 @@ public class Employee extends AbstractPersistable<Integer> {
     }
 
     public Employee() {
+    }
+
+    @Nullable
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public boolean isNew() {
+        return null == getId();
     }
 
     public String getName() {

@@ -1,17 +1,24 @@
 package cz.cvut.fit.tjv.cashier_application.domain;
 
-import org.springframework.data.jpa.domain.AbstractPersistable;
+import org.springframework.data.domain.Persistable;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * Domain type MenuItem. Uses int as a primary key.
  */
 @Entity
 @Table(name = "menu_item")
-@AttributeOverride(name = "id", column = @Column(name = "id_menu_item"))
-public class MenuItem extends AbstractPersistable<Integer> {
+public class MenuItem implements Persistable<Integer> {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_menu_item")
+    private int id;
     private String name;
     private int price;
     private boolean archived = false;
@@ -29,7 +36,7 @@ public class MenuItem extends AbstractPersistable<Integer> {
     /**
      * Create new instance of MenuItem class.
      *
-     * @param name name of the item
+     * @param name  name of the item
      * @param price price of the item
      */
     public MenuItem(String name, int price) {
@@ -38,6 +45,17 @@ public class MenuItem extends AbstractPersistable<Integer> {
     }
 
     public MenuItem() {
+    }
+
+    @Nullable
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public boolean isNew() {
+        return null == getId();
     }
 
     public String getName() {

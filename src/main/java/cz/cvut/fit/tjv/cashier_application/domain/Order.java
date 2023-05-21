@@ -1,18 +1,25 @@
 package cz.cvut.fit.tjv.cashier_application.domain;
 
-import org.springframework.data.jpa.domain.AbstractPersistable;
+import org.springframework.data.domain.Persistable;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * Domain type Order. Uses int as a primary key.
  */
 @Entity
 @Table(name = "\"order\"")
-@AttributeOverride(name = "id", column = @Column(name = "id_order"))
-public class Order extends AbstractPersistable<Integer> {
+public class Order implements Persistable<Integer> {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_order")
+    private int id;
     /**
      * Local date and time of order creation.
      */
@@ -39,6 +46,17 @@ public class Order extends AbstractPersistable<Integer> {
     }
 
     public Order() {
+    }
+
+    @Nullable
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public boolean isNew() {
+        return null == getId();
     }
 
     /**
