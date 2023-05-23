@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -22,6 +23,7 @@ public class OrderDtoConverter extends AbstractDtoConverter<Order, OrderRequestD
     OrderService orderService;
     EmployeeService employeeService;
     OrderDetailDtoConverter orderDetailDtoConverter;
+
     public OrderDtoConverter(EmployeeService employeeService, OrderService orderService,
                              OrderDetailDtoConverter orderDetailDtoConverter) {
         this.orderService = orderService;
@@ -37,7 +39,7 @@ public class OrderDtoConverter extends AbstractDtoConverter<Order, OrderRequestD
 
         return new OrderResponseDto(
                 Objects.requireNonNull(entity.getId()),
-                entity.getDateTime().format(DateTimeFormatter.ISO_DATE_TIME),
+                entity.getDateTime().truncatedTo(ChronoUnit.MINUTES).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
                 Objects.requireNonNull(entity.getEmployee().getId()),
                 orderService.calculatePrice(entity.getId()),
                 details

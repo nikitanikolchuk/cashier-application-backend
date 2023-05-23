@@ -5,6 +5,7 @@ import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -21,7 +22,7 @@ public class Order implements Persistable<Integer> {
     @Column(name = "id_order")
     private int id;
     /**
-     * Local date and time of order creation.
+     * UTC+0 date and time of order creation.
      */
     private LocalDateTime dateTime;
     /**
@@ -41,7 +42,7 @@ public class Order implements Persistable<Integer> {
      * @param employee employee that created this order
      */
     public Order(Employee employee) {
-        this.dateTime = LocalDateTime.now();
+        this.dateTime = LocalDateTime.now(ZoneOffset.UTC);
         this.employee = employee;
     }
 
@@ -60,9 +61,9 @@ public class Order implements Persistable<Integer> {
     }
 
     /**
-     * Return date and time of this order creation.
+     * Return UTC date and time of this order creation.
      *
-     * @return date and time of this order creation
+     * @return UTC date and time of this order creation
      */
     public LocalDateTime getDateTime() {
         return dateTime;
